@@ -1,0 +1,36 @@
+const cards = document.querySelectorAll(".photo-card");
+const dialog = document.querySelector("#lightbox");
+const closeButton = document.querySelector(".lightbox-close");
+
+const lightboxImage = document.querySelector("#lightbox-image");
+const lightboxTitle = document.querySelector("#lightbox-title");
+const lightboxCategory = document.querySelector("#lightbox-category");
+const lightboxDescription = document.querySelector("#lightbox-description");
+const lightboxDetails = document.querySelector("#lightbox-details");
+
+cards.forEach((card) => {
+  card.addEventListener("click", () => {
+    const imagePath = card.dataset.image;
+    const thumbnail = card.querySelector("img");
+
+    lightboxImage.src = imagePath;
+    lightboxImage.alt = thumbnail ? thumbnail.alt : card.dataset.title;
+    lightboxTitle.textContent = card.dataset.title || "Astrophotograph";
+    lightboxCategory.textContent = card.dataset.category || "ASTROPHOTOGRAPHY";
+    lightboxDescription.textContent = card.dataset.description || "";
+    lightboxDetails.textContent = card.dataset.details || "";
+
+    if (typeof dialog.showModal === "function") {
+      dialog.showModal();
+    }
+  });
+});
+
+closeButton.addEventListener("click", () => dialog.close());
+
+// Clicking the dimmed area closes the viewer.
+dialog.addEventListener("click", (event) => {
+  if (event.target === dialog) dialog.close();
+});
+
+document.querySelector("#year").textContent = new Date().getFullYear();

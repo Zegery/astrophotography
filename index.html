@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f7f4">
+  <meta name="description" content="Astrophotography by Zegery — a personal collection of images from the night sky.">
+  <title>Zegery — Astrophotography</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="wordmark" href="#" aria-label="Zegery home">zegery<span>.</span></a>
+    <nav aria-label="Main navigation">
+      <a href="#gallery">Gallery</a>
+      <a href="#about">About</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" aria-labelledby="hero-title">
+      <p class="eyebrow">ASTROPHOTOGRAPHY · NIGHT SKY IMAGING</p>
+      <h1 id="hero-title">A little closer<br>to the <em>infinite.</em></h1>
+      <p class="hero-copy">A collection of distant worlds, faint light, and nights spent looking up.</p>
+      <a class="text-link" href="#gallery">Explore the gallery <span aria-hidden="true">↘</span></a>
+      <div class="hero-art" role="img" aria-label="Abstract star field placeholder. Replace this artwork with one of your own astrophotographs.">
+        <div class="hero-art-label"><span>01 / THE NIGHT SKY</span><span>YOUR UNIVERSE, OBSERVED</span></div>
+      </div>
+    </section>
+
+    <section class="gallery-section section-wrap" id="gallery">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">SELECTED WORK</p>
+          <h2>Through the lens</h2>
+        </div>
+        <p class="section-note">A growing archive of the universe.</p>
+      </div>
+
+      <div class="gallery-grid" id="gallery-grid">
+        <!-- Edit each data-* value and replace the image path with your own photo. -->
+        <button class="photo-card photo-card-wide" type="button"
+          data-title="Andromeda Galaxy" data-category="GALAXIES"
+          data-description="A nearby spiral galaxy, captured from Earth."
+          data-details="Telescope: Add your telescope · Camera: Add your camera · Integration: Add total exposure"
+          data-image="placeholder.svg">
+          <span class="photo-image image-galaxy"><img src="placeholder.svg" alt="Placeholder for your Andromeda Galaxy photograph"></span>
+          <span class="photo-caption"><span><strong>Andromeda Galaxy</strong><small>GALAXIES · M31</small></span><span class="open-icon" aria-hidden="true">↗</span></span>
+        </button>
+
+        <button class="photo-card" type="button"
+          data-title="The Orion Nebula" data-category="NEBULAE"
+          data-description="A stellar nursery in the constellation Orion."
+          data-details="Telescope: Add your telescope · Camera: Add your camera · Integration: Add total exposure"
+          data-image="placeholder.svg">
+          <span class="photo-image image-nebula"><img src="placeholder.svg" alt="Placeholder for your Orion Nebula photograph"></span>
+          <span class="photo-caption"><span><strong>The Orion Nebula</strong><small>NEBULAE · M42</small></span><span class="open-icon" aria-hidden="true">↗</span></span>
+        </button>
+
+        <button class="photo-card" type="button"
+          data-title="The Moon" data-category="SOLAR SYSTEM"
+          data-description="Our closest celestial neighbour."
+          data-details="Telescope: Add your telescope · Camera: Add your camera · Capture date: Add date"
+          data-image="placeholder.svg">
+          <span class="photo-image image-moon"><img src="placeholder.svg" alt="Placeholder for your Moon photograph"></span>
+          <span class="photo-caption"><span><strong>The Moon</strong><small>SOLAR SYSTEM · LUNA</small></span><span class="open-icon" aria-hidden="true">↗</span></span>
+        </button>
+      </div>
+      <p class="edit-note">The gallery currently contains sample entries and abstract placeholders—not real astrophotographs. Replace them with your own images and capture details.</p>
+    </section>
+
+    <section class="about-section" id="about">
+      <div class="about-inner">
+        <p class="eyebrow">BEHIND THE IMAGES</p>
+        <h2>Curiosity, captured.</h2>
+        <div class="about-columns">
+          <p class="about-lead">I'm Zegery, an astrophotography enthusiast exploring the night sky one image at a time.</p>
+          <div>
+            <p>This site is a home for the objects I photograph and the stories behind each capture—from the gear and exposure time to the patience required under dark skies.</p>
+            <p class="edit-note">Personalize this section with your own story, location in broad terms if desired, and what you enjoy photographing.</p>
+            <a class="text-link" href="mailto:">Get in touch <span aria-hidden="true">↗</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <a class="wordmark" href="#">zegery<span>.</span></a>
+    <p>Made under the same sky. <span id="year"></span></p>
+    <a href="#top" class="back-top">Back to top ↑</a>
+  </footer>
+
+  <dialog class="lightbox" id="lightbox" aria-labelledby="lightbox-title">
+    <button class="lightbox-close" type="button" aria-label="Close image viewer">×</button>
+    <div class="lightbox-media"><img id="lightbox-image" src="" alt=""></div>
+    <div class="lightbox-info">
+      <p class="eyebrow" id="lightbox-category"></p>
+      <h2 id="lightbox-title"></h2>
+      <p id="lightbox-description"></p>
+      <p class="lightbox-details" id="lightbox-details"></p>
+    </div>
+  </dialog>
+</body>
+</html>
