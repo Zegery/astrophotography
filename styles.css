@@ -283,11 +283,11 @@ h2 {
 
 .site-footer p, .back-top { color: var(--muted); font-size: .78rem; }
 
-/* --- Updated Lightbox Layout (Full Screen + Non-Disruptive UI) --- */
+/* --- Updated Lightbox Layout (Full Screen + No Bars) --- */
 .lightbox { 
   width: 95vw; 
   max-height: 95vh; 
-  padding: 40px; /* This creates a 'gutter' so the X button doesn't block the image */
+  padding: 40px; 
   border: 0; 
   background: var(--paper); 
   color: var(--ink); 
@@ -323,7 +323,7 @@ h2 {
 
 .lightbox-media { 
   background: #10141a; 
-  max-height: 75vh; /* Leaves space at the bottom for text */
+  max-height: 80vh; /* Leave slightly more room for info */
   display: grid; 
   place-items: center; 
   overflow: hidden;
@@ -332,8 +332,8 @@ h2 {
 
 .lightbox-media img { 
   max-width: 100%; 
-  max-height: 75vh; 
-  object-fit: contain; 
+  max-height: 80vh; 
+  object-fit: cover; /* This removes the black bars */
   display: block; 
 }
 
