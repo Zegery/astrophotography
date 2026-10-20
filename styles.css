@@ -283,17 +283,17 @@ h2 {
 
 .site-footer p, .back-top { color: var(--muted); font-size: .78rem; }
 
-/* --- Updated Lightbox Styles (Large + No Scrollbar) --- */
+/* --- Updated Lightbox Layout (Full Screen + Non-Disruptive UI) --- */
 .lightbox { 
-  width: min(1200px, 95vw); 
-  max-height: 90vh; 
-  padding: 0; 
+  width: 95vw; 
+  max-height: 95vh; 
+  padding: 40px; /* This creates a 'gutter' so the X button doesn't block the image */
   border: 0; 
   background: var(--paper); 
   color: var(--ink); 
-  overflow: hidden; /* Fixes the flickering scrollbar */
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE/Edge */
+  overflow: hidden; 
+  scrollbar-width: none; 
+  -ms-overflow-style: none; 
 }
 
 .lightbox::backdrop { 
@@ -303,37 +303,43 @@ h2 {
 
 .lightbox-close { 
   position: absolute; 
-  z-index: 3; 
-  top: 12px; 
-  right: 15px; 
-  width: 42px; 
-  height: 42px; 
+  z-index: 10; 
+  top: 20px; 
+  right: 20px; 
+  width: 44px; 
+  height: 44px; 
   border: 0; 
   border-radius: 50%; 
-  background: rgba(15, 18, 20, .72); 
+  background: rgba(0, 0, 0, 0.6); 
   color: white; 
   font-size: 1.8rem; 
-  cursor: pointer; 
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.lightbox-close:hover {
+  background: rgba(0, 0, 0, 0.8);
 }
 
 .lightbox-media { 
   background: #10141a; 
-  max-height: 85vh; 
+  max-height: 75vh; /* Leaves space at the bottom for text */
   display: grid; 
   place-items: center; 
-  overflow: hidden; 
+  overflow: hidden;
+  border-radius: 4px;
 }
 
 .lightbox-media img { 
   max-width: 100%; 
-  max-height: 85vh; 
+  max-height: 75vh; 
   object-fit: contain; 
   display: block; 
 }
 
 .lightbox-info { 
-  padding: 25px 30px 30px; 
-  max-height: 15vh; 
+  padding: 30px 0 0 0; 
+  max-height: 20vh; 
   overflow: hidden; 
 }
 
