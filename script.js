@@ -41,11 +41,7 @@ const revealTargets = document.querySelectorAll(
   ".section-heading, .photo-card, .about-inner > *, .section-note"
 );
 
-const prefersReducedMotion = window.matchMedia(
-  "(prefers-reduced-motion: reduce)"
-).matches;
-
-if (prefersReducedMotion || !("IntersectionObserver" in window)) {
+cif (!("IntersectionObserver" in window)) {
   revealTargets.forEach((element) => {
     element.classList.add("visible");
   });
