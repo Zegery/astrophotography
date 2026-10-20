@@ -20,17 +20,26 @@ cards.forEach((card) => {
     lightboxDescription.textContent = card.dataset.description || "";
     lightboxDetails.textContent = card.dataset.details || "";
 
+    // Add the animation class
+    dialog.classList.add("is-open");
+
     if (typeof dialog.showModal === "function") {
       dialog.showModal();
     }
   });
 });
 
-closeButton.addEventListener("click", () => dialog.close());
+// Function to close and reset animation
+const closeModal = () => {
+  dialog.classList.remove("is-open");
+  dialog.close();
+};
+
+closeButton.addEventListener("click", closeModal);
 
 // Clicking the dimmed area closes the viewer.
 dialog.addEventListener("click", (event) => {
-  if (event.target === dialog) dialog.close();
+  if (event.target === dialog) closeModal();
 });
 
 document.querySelector("#year").textContent = new Date().getFullYear();
