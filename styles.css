@@ -141,3 +141,139 @@ body {
 .text-link {
   border-bottom-color: #515b51;
 }
+
+/* ── Smooth cinematic animations ── */
+
+/* Keep page movement smooth */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Elements start subtly lower and transparent */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 800ms ease,
+    transform 800ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Gallery cards appear in sequence */
+.photo-card.reveal:nth-child(2) {
+  transition-delay: 100ms;
+}
+
+.photo-card.reveal:nth-child(3) {
+  transition-delay: 200ms;
+}
+
+/* A gentle cinematic entrance for the hero */
+.hero .eyebrow,
+.hero h1,
+.hero .hero-copy,
+.hero > .text-link {
+  animation: fade-up 900ms both;
+}
+
+.hero h1 {
+  animation-delay: 100ms;
+}
+
+.hero .hero-copy {
+  animation-delay: 220ms;
+}
+
+.hero > .text-link {
+  animation-delay: 320ms;
+}
+
+.hero-art {
+  animation: hero-appear 1200ms 200ms both;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes hero-appear {
+  from {
+    opacity: 0;
+    transform: scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Soft drifting star-like points in the hero */
+.hero-art::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(1.5px 1.5px at 15% 25%, #ffffff99 50%, transparent 100%),
+    radial-gradient(1px 1px at 75% 18%, #ffffffaa 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 60% 72%, #ffffff88 50%, transparent 100%),
+    radial-gradient(1px 1px at 88% 55%, #ffffff99 50%, transparent 100%);
+  background-size: 340px 230px;
+  animation: star-drift 35s linear infinite alternate;
+}
+
+@keyframes star-drift {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 45px 25px;
+  }
+}
+
+/* Smooth, restrained photo hover */
+.photo-image img {
+  transition:
+    transform 700ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 500ms ease;
+}
+
+.photo-card:hover .photo-image img {
+  transform: scale(1.035);
+}
+
+.open-icon {
+  transition: transform 300ms ease;
+}
+
+/* Accessibility: honor reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
