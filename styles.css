@@ -254,18 +254,3 @@ html {
 .open-icon {
   transition: transform 300ms ease;
 }
-
-
-  *,
-  *::before,
-  *::after {
-    animation: none !important;
-    transition: none !important;
-    scroll-behavior: auto !important;
-  }
-
-  .reveal {
-    opacity: 1;
-    transform: none;
-  }
-}
