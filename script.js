@@ -41,7 +41,7 @@ const revealTargets = document.querySelectorAll(
   ".section-heading, .photo-card, .about-inner > *, .section-note"
 );
 
-cif (!("IntersectionObserver" in window)) {
+if (!("IntersectionObserver" in window)) {
   revealTargets.forEach((element) => {
     element.classList.add("visible");
   });
