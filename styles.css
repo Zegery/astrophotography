@@ -98,6 +98,8 @@ h1 em { color: var(--accent); font-weight: 400; }
 
 .text-link span { color: var(--accent); }
 
+/* --- HERO ART SECTION --- */
+/* To change the image, replace "placeholder.svg" in the url() below with your image file name */
 .hero-art { 
   position: relative; 
   overflow: hidden; 
@@ -105,7 +107,7 @@ h1 em { color: var(--accent); font-weight: 400; }
   min-height: 280px; 
   height: clamp(280px, 43vw, 500px); 
   border-radius: 3px; 
-  background: #111720 url("placeholder.svg") center 48% / cover no-repeat; 
+  background: #111720 url("collage.png") center 48% / cover no-repeat; 
 }
 
 .hero-art::after { 
@@ -283,7 +285,7 @@ h2 {
 
 .site-footer p, .back-top { color: var(--muted); font-size: .78rem; }
 
-/* --- Updated Lightbox Layout (Full Screen + No Bars) --- */
+/* --- Updated Lightbox Layout (Large + No Bars) --- */
 .lightbox { 
   width: 95vw; 
   max-height: 95vh; 
@@ -323,17 +325,18 @@ h2 {
 
 .lightbox-media { 
   background: #10141a; 
-  max-height: 80vh; /* Leave slightly more room for info */
-  display: grid; 
-  place-items: center; 
+  height: 78vh; /* Fixed height to ensure image "covers" correctly */
+  display: flex; /* Changed from grid to flex for better stretching */
+  align-items: center;
+  justify-content: center;
   overflow: hidden;
   border-radius: 4px;
 }
 
 .lightbox-media img { 
-  max-width: 100%; 
-  max-height: 80vh; 
-  object-fit: cover; /* This removes the black bars */
+  width: 100%; 
+  height: 100%; 
+  object-fit: cover; /* Forces image to fill the 78vh height exactly */
   display: block; 
 }
 
