@@ -98,8 +98,6 @@ h1 em { color: var(--accent); font-weight: 400; }
 
 .text-link span { color: var(--accent); }
 
-/* --- HERO ART SECTION --- */
-/* To change the image, replace "placeholder.svg" in the url() below with your image file name */
 .hero-art { 
   position: relative; 
   overflow: hidden; 
@@ -107,7 +105,7 @@ h1 em { color: var(--accent); font-weight: 400; }
   min-height: 280px; 
   height: clamp(280px, 43vw, 500px); 
   border-radius: 3px; 
-  background: #111720 url("collage.png") center 48% / cover no-repeat; 
+  background: #111720 url("placeholder.svg") center 48% / cover no-repeat; 
 }
 
 .hero-art::after { 
@@ -199,9 +197,7 @@ h2 {
 
 .photo-card:hover .photo-image img { transform: scale(1.035); }
 
-.image-galaxy img { filter: hue-rotate(12deg); }
-.image-nebula img { filter: hue-rotate(105deg) saturate(.75); }
-.image-moon img { filter: grayscale(1) brightness(1.4); }
+/* Removed the filters that caused the tinting on thumbnails */
 
 .photo-caption { 
   display: flex; 
@@ -285,10 +281,10 @@ h2 {
 
 .site-footer p, .back-top { color: var(--muted); font-size: .78rem; }
 
-/* --- Updated Lightbox Layout (Large + No Bars) --- */
+/* --- Updated Lightbox Layout (Non-Cropping + No Cut-off Text) --- */
 .lightbox { 
   width: 95vw; 
-  max-height: 95vh; 
+  max-height: 98vh; 
   padding: 40px; 
   border: 0; 
   background: var(--paper); 
@@ -324,9 +320,9 @@ h2 {
 }
 
 .lightbox-media { 
-  background: #10141a; 
-  height: 78vh; /* Fixed height to ensure image "covers" correctly */
-  display: flex; /* Changed from grid to flex for better stretching */
+  background: #05070a; /* Deep space black to blend with image edges */
+  height: 75vh; 
+  display: flex; 
   align-items: center;
   justify-content: center;
   overflow: hidden;
@@ -334,16 +330,16 @@ h2 {
 }
 
 .lightbox-media img { 
-  width: 100%; 
-  height: 100%; 
-  object-fit: cover; /* Forces image to fill the 78vh height exactly */
+  max-width: 100%; 
+  max-height: 100%; 
+  object-fit: contain; /* Ensures full image is visible without cropping */
   display: block; 
 }
 
 .lightbox-info { 
   padding: 30px 0 0 0; 
-  max-height: 20vh; 
-  overflow: hidden; 
+  /* Removed max-height to prevent text from being cut off */
+  overflow: visible; 
 }
 
 .lightbox-info .eyebrow { margin-bottom: 9px; }
