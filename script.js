@@ -34,3 +34,42 @@ dialog.addEventListener("click", (event) => {
 });
 
 document.querySelector("#year").textContent = new Date().getFullYear();
+
+/* ── Scroll reveal observer ── */
+
+const revealTargets = document.querySelectorAll(
+  ".section-heading, .photo-card, .about-inner > *, .section-note"
+);
+
+const prefersReducedMotion = window.matchMedia(
+  "(prefers-reduced-motion: reduce)"
+).matches;
+
+if (prefersReducedMotion || !("IntersectionObserver" in window)) {
+  revealTargets.forEach((element) => {
+    element.classList.add("visible");
+  });
+} else {
+  revealTargets.forEach((element) => {
+    element.classList.add("reveal");
+  });
+
+  const revealObserver = new IntersectionObserver(
+    (entries, observer) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    {
+      threshold: 0.12,
+      rootMargin: "0px 0px -35px 0px"
+    }
+  );
+
+  revealTargets.forEach((element) => {
+    revealObserver.observe(element);
+  });
+}
