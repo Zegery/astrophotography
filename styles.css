@@ -8,67 +8,343 @@
   --accent: #65786a;
   --max: 1180px;
 }
+
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-body { margin: 0; background: var(--paper); color: var(--ink); font-family: "DM Sans", sans-serif; -webkit-font-smoothing: antialiased; }
+
+html { 
+  scroll-behavior: smooth; 
+}
+
+body { 
+  margin: 0; 
+  background: var(--paper); 
+  color: var(--ink); 
+  font-family: "DM Sans", sans-serif; 
+  -webkit-font-smoothing: antialiased; 
+}
+
 a { color: inherit; text-decoration: none; }
 button { font: inherit; }
-.site-header { height: 82px; padding: 0 6.2vw; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); }
-.wordmark { font: 800 1.35rem "Manrope", sans-serif; letter-spacing: -.08em; }
+
+.site-header { 
+  height: 82px; 
+  padding: 0 6.2vw; 
+  display: flex; 
+  align-items: center; 
+  justify-content: space-between; 
+  border-bottom: 1px solid var(--line); 
+}
+
+.wordmark { 
+  font: 800 1.35rem "Manrope", sans-serif; 
+  letter-spacing: -.08em; 
+}
+
 .wordmark span { color: var(--accent); }
-.site-header nav { display: flex; gap: 30px; font-size: .88rem; color: #555b55; }
+
+.site-header nav { 
+  display: flex; 
+  gap: 30px; 
+  font-size: .88rem; 
+  color: #555b55; 
+}
+
 .site-header nav a:hover, .back-top:hover { color: var(--accent); }
-.hero { max-width: var(--max); margin: 0 auto; padding: 100px 28px 80px; }
-.eyebrow { margin: 0 0 20px; color: var(--muted); font-size: .69rem; font-weight: 700; letter-spacing: .17em; }
-h1, h2 { font-family: "Manrope", sans-serif; font-weight: 500; letter-spacing: -.065em; }
-h1 { font-size: clamp(3.8rem, 9vw, 7.7rem); line-height: .99; margin: 0; }
+
+.hero { 
+  max-width: var(--max); 
+  margin: 0 auto; 
+  padding: 100px 28px 80px; 
+}
+
+.eyebrow { 
+  margin: 0 0 20px; 
+  color: var(--muted); 
+  font-size: .69rem; 
+  font-weight: 700; 
+  letter-spacing: .17em; 
+}
+
+h1, h2 { 
+  font-family: "Manrope", sans-serif; 
+  font-weight: 500; 
+  letter-spacing: -.065em; 
+}
+
+h1 { 
+  font-size: clamp(3.8rem, 9vw, 7.7rem); 
+  line-height: .99; 
+  margin: 0; 
+}
+
 h1 em { color: var(--accent); font-weight: 400; }
-.hero-copy { max-width: 430px; margin: 26px 0 22px; color: #666d65; font-size: 1.05rem; line-height: 1.8; }
-.text-link { display: inline-flex; gap: 14px; align-items: center; padding-bottom: 6px; border-bottom: 1px solid #a8aea5; font-size: .88rem; }
+
+.hero-copy { 
+  max-width: 430px; 
+  margin: 26px 0 22px; 
+  color: #666d65; 
+  font-size: 1.05rem; 
+  line-height: 1.8; 
+}
+
+.text-link { 
+  display: inline-flex; 
+  gap: 14px; 
+  align-items: center; 
+  padding-bottom: 6px; 
+  border-bottom: 1px solid #a8aea5; 
+  font-size: .88rem; 
+}
+
 .text-link span { color: var(--accent); }
-.hero-art { position: relative; overflow: hidden; margin-top: 64px; min-height: 280px; height: clamp(280px, 43vw, 500px); border-radius: 3px; background: #111720 url("placeholder.svg") center 48% / cover no-repeat; }
-.hero-art::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(7,10,15,.58), transparent 35%); pointer-events: none; }
-.hero-art-label { position: absolute; z-index: 1; bottom: 22px; left: 24px; right: 24px; display: flex; justify-content: space-between; gap: 15px; color: #f3f4ef; font-size: .62rem; letter-spacing: .15em; }
-.section-wrap { max-width: var(--max); margin: 0 auto; padding: 70px 28px 110px; }
-.section-heading { display: flex; justify-content: space-between; align-items: end; gap: 25px; margin-bottom: 34px; }
+
+.hero-art { 
+  position: relative; 
+  overflow: hidden; 
+  margin-top: 64px; 
+  min-height: 280px; 
+  height: clamp(280px, 43vw, 500px); 
+  border-radius: 3px; 
+  background: #111720 url("placeholder.svg") center 48% / cover no-repeat; 
+}
+
+.hero-art::after { 
+  content: ""; 
+  position: absolute; 
+  inset: 0; 
+  background: linear-gradient(0deg, rgba(7,10,15,.58), transparent 35%); 
+  pointer-events: none; 
+}
+
+.hero-art-label { 
+  position: absolute; 
+  z-index: 1; 
+  bottom: 22px; 
+  left: 24px; 
+  right: 24px; 
+  display: flex; 
+  justify-content: space-between; 
+  gap: 15px; 
+  color: #f3f4ef; 
+  font-size: .62rem; 
+  letter-spacing: .15em; 
+}
+
+.section-wrap { 
+  max-width: var(--max); 
+  margin: 0 auto; 
+  padding: 70px 28px 110px; 
+}
+
+.section-heading { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: end; 
+  gap: 25px; 
+  margin-bottom: 34px; 
+}
+
 .section-heading .eyebrow { margin-bottom: 12px; }
-h2 { margin: 0; font-size: clamp(2.2rem, 4.4vw, 3.6rem); line-height: 1.1; }
-.section-note { color: var(--muted); font-size: .88rem; margin: 0 0 7px; }
-.gallery-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 34px 22px; }
-.photo-card { display: block; padding: 0; border: 0; background: transparent; color: inherit; text-align: left; cursor: pointer; min-width: 0; }
+
+h2 { 
+  margin: 0; 
+  font-size: clamp(2.2rem, 4.4vw, 3.6rem); 
+  line-height: 1.1; 
+}
+
+.section-note { 
+  color: var(--muted); 
+  font-size: .88rem; 
+  margin: 0 0 7px; 
+}
+
+.gallery-grid { 
+  display: grid; 
+  grid-template-columns: repeat(2, minmax(0, 1fr)); 
+  gap: 34px 22px; 
+}
+
+.photo-card { 
+  display: block; 
+  padding: 0; 
+  border: 0; 
+  background: transparent; 
+  color: inherit; 
+  text-align: left; 
+  cursor: pointer; 
+  min-width: 0; 
+}
+
 .photo-card-wide { grid-column: 1 / -1; }
-.photo-image { display: block; overflow: hidden; position: relative; aspect-ratio: 1.25; background: #151a22; }
+
+.photo-image { 
+  display: block; 
+  overflow: hidden; 
+  position: relative; 
+  aspect-ratio: 1.25; 
+  background: #151a22; 
+}
+
 .photo-card-wide .photo-image { aspect-ratio: 2.1; }
-.photo-image img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .5s ease; }
+
+.photo-image img { 
+  display: block; 
+  width: 100%; 
+  height: 100%; 
+  object-fit: cover; 
+  transition: transform .5s ease; 
+}
+
 .photo-card:hover .photo-image img { transform: scale(1.035); }
+
 .image-galaxy img { filter: hue-rotate(12deg); }
 .image-nebula img { filter: hue-rotate(105deg) saturate(.75); }
 .image-moon img { filter: grayscale(1) brightness(1.4); }
-.photo-caption { display: flex; justify-content: space-between; gap: 15px; align-items: center; padding-top: 15px; }
-.photo-caption strong { display: block; font-size: .98rem; font-weight: 600; }
-.photo-caption small { display: block; margin-top: 6px; font-size: .64rem; color: var(--muted); letter-spacing: .12em; }
-.open-icon { font-size: 1.1rem; color: var(--accent); transition: transform .2s; }
+
+.photo-caption { 
+  display: flex; 
+  justify-content: space-between; 
+  gap: 15px; 
+  align-items: center; 
+  padding-top: 15px; 
+}
+
+.photo-caption strong { 
+  display: block; 
+  font-size: .98rem; 
+  font-weight: 600; 
+}
+
+.photo-caption small { 
+  display: block; 
+  margin-top: 6px; 
+  font-size: .64rem; 
+  color: var(--muted); 
+  letter-spacing: .12em; 
+}
+
+.open-icon { 
+  font-size: 1.1rem; 
+  color: var(--accent); 
+  transition: transform .2s; 
+}
+
 .photo-card:hover .open-icon { transform: translate(2px, -2px); }
-.edit-note { margin: 26px 0 0; max-width: 700px; color: #777d75; font-size: .8rem; line-height: 1.7; }
+
+.edit-note { 
+  margin: 26px 0 0; 
+  max-width: 700px; 
+  color: #777d75; 
+  font-size: .8rem; 
+  line-height: 1.7; 
+}
+
 .about-section { background: #eeefe9; }
-.about-inner { max-width: var(--max); margin: 0 auto; padding: 100px 28px 110px; }
+
+.about-inner { 
+  max-width: var(--max); 
+  margin: 0 auto; 
+  padding: 100px 28px 110px; 
+}
+
 .about-inner > .eyebrow { margin-bottom: 15px; }
-.about-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 10%; margin-top: 35px; }
-.about-lead { margin: 0; max-width: 450px; font: 500 clamp(1.5rem, 3vw, 2.3rem)/1.35 "Manrope", sans-serif; letter-spacing: -.04em; }
-.about-columns > div > p:not(.edit-note) { margin: 0 0 16px; color: #646b63; line-height: 1.85; font-size: .95rem; }
+
+.about-columns { 
+  display: grid; 
+  grid-template-columns: 1fr 1fr; 
+  gap: 10%; 
+  margin-top: 35px; 
+}
+
+.about-lead { 
+  margin: 0; 
+  max-width: 450px; 
+  font: 500 clamp(1.5rem, 3vw, 2.3rem)/1.35 "Manrope", sans-serif; 
+  letter-spacing: -.04em; 
+}
+
+.about-columns > div > p:not(.edit-note) { 
+  margin: 0 0 16px; 
+  color: #646b63; 
+  line-height: 1.85; 
+  font-size: .95rem; 
+}
+
 .about-columns .edit-note { margin: 0 0 22px; }
-.site-footer { min-height: 100px; padding: 28px 6.2vw; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+
+.site-footer { 
+  min-height: 100px; 
+  padding: 28px 6.2vw; 
+  display: flex; 
+  align-items: center; 
+  justify-content: space-between; 
+  gap: 20px; 
+}
+
 .site-footer p, .back-top { color: var(--muted); font-size: .78rem; }
-.lightbox { width: min(1000px, calc(100% - 32px)); max-width: none; max-height: calc(100% - 32px); padding: 0; border: 0; background: var(--paper); color: var(--ink); }
-.lightbox::backdrop { background: rgba(9, 12, 15, .82); backdrop-filter: blur(4px); }
-.lightbox-close { position: absolute; z-index: 2; top: 12px; right: 15px; width: 42px; height: 42px; border: 0; border-radius: 50%; background: rgba(15, 18, 20, .72); color: white; font-size: 1.8rem; cursor: pointer; }
-.lightbox-media { background: #10141a; max-height: 65vh; display: grid; place-items: center; }
-.lightbox-media img { max-width: 100%; max-height: 65vh; object-fit: contain; display: block; }
-.lightbox-info { padding: 25px 30px 30px; }
+
+/* --- Updated Lightbox Styles --- */
+.lightbox { 
+  width: min(1200px, 95vw); 
+  max-height: 90vh; 
+  padding: 0; 
+  border: 0; 
+  background: var(--paper); 
+  color: var(--ink); 
+  overflow: hidden; /* Fixes the flickering scrollbar */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+}
+
+.lightbox::backdrop { 
+  background: rgba(9, 12, 15, .82); 
+  backdrop-filter: blur(4px); 
+}
+
+.lightbox-close { 
+  position: absolute; 
+  z-index: 3; /* Ensures it stays on top */
+  top: 12px; 
+  right: 15px; 
+  width: 42px; 
+  height: 42px; 
+  border: 0; 
+  border-radius: 50%; 
+  background: rgba(15, 18, 20, .72); 
+  color: white; 
+  font-size: 1.8rem; 
+  cursor: pointer; 
+}
+
+.lightbox-media { 
+  background: #10141a; 
+  max-height: 85vh; /* Larger image area */
+  display: grid; 
+  place-items: center; 
+  overflow: hidden; 
+}
+
+.lightbox-media img { 
+  max-width: 100%; 
+  max-height: 85vh; /* Allows image to occupy more of the screen */
+  object-fit: contain; 
+  display: block; 
+}
+
+.lightbox-info { 
+  padding: 25px 30px 30px; 
+  max-height: 15vh; /* Keeps text area compact */
+  overflow: hidden; 
+}
+
 .lightbox-info .eyebrow { margin-bottom: 9px; }
+
 .lightbox-info h2 { font-size: clamp(1.8rem, 4vw, 2.7rem); }
+
 .lightbox-info > p:not(.eyebrow) { color: #60675f; line-height: 1.65; }
+
 .lightbox-details { font-size: .82rem; }
+
 @media (max-width: 650px) {
   .site-header { height: 68px; padding: 0 22px; }
   .hero { padding: 75px 20px 45px; }
@@ -141,12 +417,10 @@ body {
 
 /* ── Smooth cinematic animations ── */
 
-/* Keep page movement smooth */
 html {
   scroll-behavior: smooth;
 }
 
-/* Elements start subtly lower and transparent */
 .reveal {
   opacity: 0;
   transform: translateY(24px);
@@ -160,7 +434,6 @@ html {
   transform: translateY(0);
 }
 
-/* Gallery cards appear in sequence */
 .photo-card.reveal:nth-child(2) {
   transition-delay: 100ms;
 }
@@ -169,7 +442,6 @@ html {
   transition-delay: 200ms;
 }
 
-/* A gentle cinematic entrance for the hero */
 .hero .eyebrow,
 .hero h1,
 .hero .hero-copy,
@@ -215,7 +487,6 @@ html {
   }
 }
 
-/* Soft drifting star-like points in the hero */
 .hero-art::before {
   content: "";
   position: absolute;
@@ -240,7 +511,6 @@ html {
   }
 }
 
-/* Smooth, restrained photo hover */
 .photo-image img {
   transition:
     transform 700ms cubic-bezier(0.22, 1, 0.36, 1),
@@ -255,7 +525,7 @@ html {
   transition: transform 300ms ease;
 }
 
-/* Lightbox Entrance Animation */
+/* New Lightbox Animation */
 @keyframes lightboxAppear {
   from {
     opacity: 0;
@@ -267,12 +537,10 @@ html {
   }
 }
 
-/* This targets the media container inside the lightbox */
 .lightbox.is-open .lightbox-media {
   animation: lightboxAppear 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
-/* Optional: Add a slight fade-in to the info text as well */
 .lightbox.is-open .lightbox-info {
   animation: lightboxAppear 0.8s ease-out forwards;
 }
