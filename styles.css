@@ -105,7 +105,7 @@ h1 em { color: var(--accent); font-weight: 400; }
   min-height: 280px; 
   height: clamp(280px, 43vw, 500px); 
   border-radius: 3px; 
-  background: #111720 url("placeholder.svg") center 48% / cover no-repeat; 
+  background: #111720 url("m27.png") center 48% / cover no-repeat; 
 }
 
 .hero-art::after { 
