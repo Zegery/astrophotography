@@ -105,6 +105,7 @@ h1 em { color: var(--accent); font-weight: 400; }
   min-height: 280px; 
   height: clamp(280px, 43vw, 500px); 
   border-radius: 3px; 
+  background: #111720 url("collage.png") center 48% / cover no-repeat; 
 }
 
 .hero-art::after { 
@@ -308,6 +309,10 @@ h2 {
   cursor: pointer;
 }
 
+.lightbox-close:hover {
+  background: rgba(0, 0, 0, 0.8);
+}
+
 .lightbox-media { 
   display: flex; 
   align-items: center;
@@ -324,10 +329,16 @@ h2 {
 }
 
 .lightbox-info { 
-  padding: 30px 0 0 0; 
+  padding: 20px 0 0 0; 
 }
 
-.lightbox-info h2 { font-size: clamp(1.8rem, 4vw, 2.7rem); }
+.lightbox-info .eyebrow { margin-bottom: 9px; }
+
+.lightbox-info h2 { font-size: clamp(1.5rem, 3.5vw, 2.4rem); }
+
+.lightbox-info > p:not(.eyebrow) { color: #60675f; line-height: 1.65; }
+
+.lightbox-details { font-size: .82rem; }
 
 /* --- Dark Theme & Mobile Overrides --- */
 :root {
@@ -364,38 +375,33 @@ body { background: var(--paper); color: var(--ink); }
   .site-footer p { order: 3; flex-basis: 100%; margin: 0; }
   
   .lightbox { width: 92vw; padding: 20px 15px; }
-  .lightbox-media { height: auto; max-height: 60vh; }
+  .lightbox-media { height: auto; max-height: 50vh; }
 }
 
 /* --- FORCE FIXES (Overrides everything else) --- */
 
-/* Fix 1: Lightbox - No black bars and no cropping */
+/* Fix 1: Lightbox - No black bars, no cropping, and extra room for text */
 .lightbox-media {
-  background: #171b18 !important; /* Matches the lightbox container perfectly */
-  height: auto !important;         /* Shrinks the container to the image size */
-  max-height: 80vh !important;    /* Prevents it from being too tall */
+  background: #171b18 !important; 
+  height: auto !important;         
+  max-height: 55vh !important;    /* Reduced from 80vh to 55vh to give text more room */
   padding: 0 !important;
 }
 
 .lightbox-media img {
-  object-fit: contain !important;  /* Guarantees no cropping */
-  max-height: 80vh !important;
+  object-fit: contain !important;  
+  max-height: 55vh !important;
 }
 
-/* Fix 2: Hero - Remove the background collage and the stars */
-.hero-art {
-  background: none !important;     /* Removes the collage.png */
-  background-size: none !important;
-}
-
+/* Fix 2: Hero - Remove the "weird" starfield background but keep the collage */
 .hero-art::before {
-  display: none !important;        /* Removes the starfield animation */
+  display: none !important; /* This kills the starfield animation */
 }
 
-/* Fix 3: Mobile Hero Image - No cropping */
+/* Fix 3: Mobile Hero - Ensure collage shows in full */
 @media (max-width: 650px) {
   .hero-art {
-    background-size: contain !important; /* If you ever add a background back */
+    background-size: contain !important;
   }
 }
 
