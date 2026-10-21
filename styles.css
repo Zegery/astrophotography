@@ -529,3 +529,8 @@ html {
 .open-icon {
   transition: transform 300ms ease;
 }
+.wordmark img {
+  display: block;
+  max-height: 40px; /* Adjust this to control the size */
+  width: auto;
+}
