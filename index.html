@@ -12,9 +12,9 @@
 </head>
 <body>
   <header class="site-header">
-<a class="wordmark" href="#" aria-label="Zegery home">
-  <img src="logo.webp" alt="Zegery Logo" style="height: 60px; width: auto;">
-</a>
+    <a class="wordmark" href="#" aria-label="Zegery home">
+      <img src="logo.webp" alt="Zegery Logo" style="height: 60px; width: auto;">
+    </a>
     <nav aria-label="Main navigation">
       <a href="#gallery">Gallery</a>
       <a href="#about">About</a>
@@ -42,12 +42,13 @@
       </div>
 
       <div class="gallery-grid" id="gallery-grid">
+        <!-- Existing Cards -->
         <button class="photo-card photo-card-wide" type="button"
           data-title="The Dumbbell Nebula" data-category="Nebulae"
           data-description="A planetary nebula located around 1,300 light years from Earth."
           data-details="Telescope: Skywatcher 130PDS · Camera: Player One Uranus C · Integration: 10 hours"
           data-image="m27.png">
-          <span class="photo-image image-galaxy"><img src="m27.png" alt="Messier 27"></span>
+          <span class="photo-image image-nebula"><img src="m27.png" alt="Messier 27"></span>
           <span class="photo-caption"><span><strong class="photo-caption-title">The Dumbbell Nebula</strong><small>Nebulae · M27</small></span><span class="open-icon" aria-hidden="true">↗</span></span>
         </button>
 
@@ -67,6 +68,43 @@
           data-image="Atlas.png">
           <span class="photo-image image-moon"><img src="Atlas.png" alt="Atlas"></span>
           <span class="photo-caption"><span><strong class="photo-caption-title">C/2023 A3 Tsuchinshan-ATLAS</strong><small>Solar System · ATLAS</small></span><span class="open-icon" aria-hidden="true">↗</span></span>
+        </button>
+
+        <!-- New Cards -->
+        <button class="photo-card" type="button"
+          data-title="The Andromeda Galaxy" data-category="Galaxies"
+          data-description="Our nearest major galactic neighbor, M31 is a barred spiral galaxy approximately 2.5 million light years away."
+          data-details="Telescope: Skywatcher 130PDS · Camera: Player One Uranus C · Integration: 6 hours"
+          data-image="m31.png">
+          <span class="photo-image image-galaxy"><img src="m31.png" alt="Andromeda Galaxy"></span>
+          <span class="photo-caption"><span><strong class="photo-caption-title">The Andromeda Galaxy</strong><small>Galaxies · M31</small></span><span class="open-icon" aria-hidden="true">↗</span></span>
+        </button>
+
+        <button class="photo-card" type="button"
+          data-title="The North America Nebula" data-category="Nebulae"
+          data-description="A large emission nebula in Cygnus, famous for its shape resembling the continent of North America."
+          data-details="Telescope: Skywatcher 130PDS · Camera: Player One Uranus C · Integration: 4.5 hours"
+          data-image="ngc7000.png">
+          <span class="photo-image image-nebula"><img src="ngc7000.png" alt="North America Nebula"></span>
+          <span class="photo-caption"><span><strong class="photo-caption-title">The North America Nebula</strong><small>Nebulae · NGC 7000</small></span><span class="open-icon" aria-hidden="true">↗</span></span>
+        </button>
+
+        <button class="photo-card" type="button"
+          data-title="The Ring Nebula" data-category="Nebulae"
+          data-description="A planetary nebula in the constellation Lyra, often called the 'Eye of God' due to its striking appearance."
+          data-details="Telescope: Skywatcher 130PDS · Camera: Player One Uranus C · Integration: 7 hours"
+          data-image="m57.png">
+          <span class="photo-image image-nebula"><img src="m57.png" alt="Ring Nebula"></span>
+          <span class="photo-caption"><span><strong class="photo-caption-title">The Ring Nebula</strong><small>Nebulae · M57</small></span><span class="open-icon" aria-hidden="true">↗</span></span>
+        </button>
+
+        <button class="photo-card" type="button"
+          data-title="Jupiter & Galilean Moons" data-category="Solar System"
+          data-description="A close-up capture of Jupiter showing its cloud bands and four largest moons: Io, Europa, Ganymede, and Callisto."
+          data-details="Telescope: Skywatcher 130PDS · Camera: Player One Uranus C · Capture date: November 5, 2024"
+          data-image="jupiter.png">
+          <span class="photo-image image-solar"><img src="jupiter.png" alt="Jupiter"></span>
+          <span class="photo-caption"><span><strong class="photo-caption-title">Jupiter & Galilean Moons</strong><small>Solar System · JUP</small></span><span class="open-icon" aria-hidden="true">↗</span></span>
         </button>
       </div>
       <p class="edit-note">More additions to come!!</p>
@@ -96,12 +134,9 @@
 
   <dialog class="lightbox" id="lightbox" aria-labelledby="lightbox-title">
     <button class="lightbox-close" type="button" aria-label="Close image viewer">×</button>
-
-        <div class="lightbox-media">
+    <div class="lightbox-media">
       <img id="lightbox-image" src="" alt="">
     </div>
-    
-
     <div class="lightbox-info">
       <p class="eyebrow" id="lightbox-category"></p>
       <h2 id="lightbox-title"></h2>
