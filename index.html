@@ -42,14 +42,13 @@
       </div>
 
       <div class="gallery-grid" id="gallery-grid">
-        <!-- Edit each data-* value and replace the image path with your own photo. -->
         <button class="photo-card photo-card-wide" type="button"
           data-title="The Dumbbell Nebula" data-category="Nebulae"
           data-description="A planetary nebula located around 1,300 light years from Earth."
           data-details="Telescope: Skywatcher 130PDS · Camera: Player One Uranus C · Integration: 10 hours"
           data-image="m27.png">
           <span class="photo-image image-galaxy"><img src="m27.png" alt="Messier 27"></span>
-          <span class="photo-caption"><span><strong>The Dumbbell Nebula</strong><small>Nebulae · M27</small></span><span class="open-icon" aria-hidden="true">↗</span></span>
+          <span class="photo-caption"><span><strong class="photo-caption-title">The Dumbbell Nebula</strong><small>Nebulae · M27</small></span><span class="open-icon" aria-hidden="true">↗</span></span>
         </button>
 
         <button class="photo-card" type="button"
@@ -58,7 +57,7 @@
           data-details="Telescope: Skywatcher 130PDS · Camera: Uranus C · Integration: 3 hours"
           data-image="M42.png">
           <span class="photo-image image-nebula"><img src="M42.png" alt="Orion Nebula"></span>
-          <span class="photo-caption"><span><strong>The Orion Nebula</strong><small>Nebulae · M42</small></span><span class="open-icon" aria-hidden="true">↗</span></span>
+          <span class="photo-caption"><span><strong class="photo-caption-title">The Orion Nebula</strong><small>Nebulae · M42</small></span><span class="open-icon" aria-hidden="true">↗</span></span>
         </button>
 
         <button class="photo-card" type="button"
@@ -66,17 +65,17 @@
           data-description="C/2023 A3 Tsuchinshan-ATLAS was an incredible comet making its appearance in 2024, shining brightly in the evening sky to be viewed with the naked eye. This comet is on a trajectory to leave the solar system forever."
           data-details="Telescope: Skywatcher 130PDS · Camera: Player One Uranus C · Capture date: October 18, 2024"
           data-image="Atlas.png">
-            <span class="photo-image image-moon"><img src="Atlas.png" alt="Atlas"></span>
-          <span class="photo-caption"><span><strong>C/2023 A3 Tsuchinshan-ATLAS</strong><small>Solar System · COMET</small></span><span class="open-icon" aria-hidden="true">↗</span></span>
+          <span class="photo-image image-moon"><img src="Atlas.png" alt="Atlas"></span>
+          <span class="photo-caption"><span><strong class="photo-caption-title">The Moon</strong><small>Solar System · COMET</small></span><span class="open-icon" aria-hidden="true">↗</span></span>
         </button>
       </div>
-      <p class="edit-note">More additions to come!! </p>
+      <p class="edit-note">More additions to come!!</p>
     </section>
 
     <section class="about-section" id="about">
       <div class="about-inner">
         <p class="eyebrow">BEHIND THE STARS</p>
-        <h2>About me</h2>
+        <h2>About Me</h2>
         <div class="about-columns">
           <p class="about-lead">I'm Zegery, an astrophotographer trying to unveil the secrets of the night sky from my light-polluted backyard.</p>
           <div>
@@ -97,7 +96,15 @@
 
   <dialog class="lightbox" id="lightbox" aria-labelledby="lightbox-title">
     <button class="lightbox-close" type="button" aria-label="Close image viewer">×</button>
-    <div class="lightbox-media"><img id="lightbox-image" src="" alt=""></div>
+    
+    <div class="lightbox-media">
+      <img id="lightbox-image" src="" alt="">
+      <div class="zoom-controls">
+        <button id="zoom-in" class="zoom-btn" aria-label="Zoom in">+</button>
+        <button id="zoom-out" class="zoom-btn" aria-label="Zoom out">-</button>
+      </div>
+    </div>
+
     <div class="lightbox-info">
       <p class="eyebrow" id="lightbox-category"></p>
       <h2 id="lightbox-title"></h2>
