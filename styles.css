@@ -279,15 +279,15 @@ h2 {
 
 .site-footer p, .back-top { color: var(--muted); font-size: .78rem; }
 
-/* --- Updated Lightbox Layout (No black bars + scrollable) --- */
+/* --- Lightbox (Fixed for No Bars + Mobile Scrolling) --- */
 .lightbox { 
   width: 95vw; 
   max-height: 95vh; 
   padding: 40px; 
   border: 0; 
-  background: transparent; /* Changed to transparent to remove black bars */
+  background: #171b18; /* Solid dark theme background */
   color: var(--ink); 
-  overflow-y: auto; /* Added to ensure text isn't cut off */
+  overflow-y: auto; /* Ensures long text can be scrolled */
   scrollbar-width: thin; 
   -ms-overflow-style: none; 
 }
@@ -318,8 +318,9 @@ h2 {
 }
 
 .lightbox-media { 
-  background: transparent; /* Changed from #05070a to remove black bars */
-  height: 65vh; 
+  background: transparent; /* Removed the black background bar */
+  max-height: 70vh; /* Changed from fixed height to max-height */
+  width: 100%;
   display: flex; 
   align-items: center;
   justify-content: center;
@@ -330,7 +331,7 @@ h2 {
 .lightbox-media img { 
   max-width: 100%; 
   max-height: 100%; 
-  object-fit: contain; 
+  object-fit: contain; /* Shows full image without cropping */
   display: block; 
 }
 
@@ -347,6 +348,8 @@ h2 {
 
 .lightbox-details { font-size: .82rem; }
 
+/* --- Responsive & Theme Overrides --- */
+
 @media (max-width: 650px) {
   .site-header { height: 68px; padding: 0 22px; }
   .hero { padding: 75px 20px 45px; }
@@ -358,28 +361,28 @@ h2 {
   .gallery-grid { grid-template-columns: 1fr; gap: 28px; }
   .photo-card-wide { grid-column: auto; }
   
-  /* Mobile Fix: Prevent images from being cut off by allowing them to be square-ish */
-  .photo-card-wide .photo-image { aspect-ratio: 1 / 1; }
-  .photo-image { aspect-ratio: 1 / 1; }
+  /* Mobile Fix: Prevent image cutoff by allowing natural aspect ratio */
+  .photo-card-wide .photo-image { aspect-ratio: auto; }
+  .photo-image { aspect-ratio: auto; }
   
   .about-inner { padding: 75px 20px; }
   .about-columns { grid-template-columns: 1fr; gap: 28px; }
   .site-footer { padding: 24px 20px; flex-wrap: wrap; }
   .site-footer p { order: 3; flex-basis: 100%; margin: 0; }
 
-  /* Mobile Lightbox Fixes */
+  /* Mobile Lightbox Fix: Remove "Vertical Bars" and improve sizing */
   .lightbox {
-    width: 90vw;
-    padding: 25px 15px; /* Reduced padding to remove "vertical bars" */
+    width: 92vw;
+    padding: 20px 15px;
     max-height: 90vh;
   }
   .lightbox-media {
-    height: 50vh; /* Give more room for text below the image */
-    min-height: 30vh;
+    height: auto; /* Let content define height */
+    max-height: 60vh;
   }
 }
 
-/* Dark astrophotography theme */
+/* Dark astrophotography theme (Consolidated) */
 :root {
   color-scheme: dark;
   --paper: #111412;
@@ -418,45 +421,21 @@ body {
   border-bottom: 1px solid #262d27;
 }
 
-.lightbox {
-  background: #171b18;
-  color: var(--ink);
-  border: 1px solid #353d36;
-}
-
-.lightbox-media {
-  background: #090b0a;
-}
-
 .text-link {
   border-bottom-color: #515b51;
 }
 
-/* ── Smooth cinematic animations ── */
-
-html {
-  scroll-behavior: smooth;
-}
+/* ── Animations ── */
 
 .reveal {
   opacity: 0;
   transform: translateY(24px);
-  transition:
-    opacity 800ms ease,
-    transform 800ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition: opacity 800ms ease, transform 800ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .reveal.visible {
   opacity: 1;
   transform: translateY(0);
-}
-
-.photo-card.reveal:nth-child(2) {
-  transition-delay: 100ms;
-}
-
-.photo-card.reveal:nth-child(3) {
-  transition-delay: 200ms;
 }
 
 .hero .eyebrow,
@@ -466,42 +445,22 @@ html {
   animation: fade-up 900ms both;
 }
 
-.hero h1 {
-  animation-delay: 100ms;
-}
-
-.hero .hero-copy {
-  animation-delay: 220ms;
-}
-
-.hero > .text-link {
-  animation-delay: 320ms;
-}
+.hero h1 { animation-delay: 100ms; }
+.hero .hero-copy { animation-delay: 220ms; }
+.hero > .text-link { animation-delay: 320ms; }
 
 .hero-art {
   animation: hero-appear 1200ms 200ms both;
 }
 
 @keyframes fade-up {
-  from {
-    opacity: 0;
-    transform: translateY(18px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes hero-appear {
-  from {
-    opacity: 0;
-    transform: scale(0.985);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+  from { opacity: 0; transform: scale(0.985); }
+  to { opacity: 1; transform: scale(1); }
 }
 
 .hero-art::before {
@@ -520,18 +479,12 @@ html {
 }
 
 @keyframes star-drift {
-  from {
-    background-position: 0 0;
-  }
-  to {
-    background-position: 45px 25px;
-  }
+  from { background-position: 0 0; }
+  to { background-position: 45px 25px; }
 }
 
 .photo-image img {
-  transition:
-    transform 700ms cubic-bezier(0.22, 1, 0.36, 1),
-    filter 500ms ease;
+  transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1), filter 500ms ease;
 }
 
 .photo-card:hover .photo-image img {
@@ -543,6 +496,6 @@ html {
 }
 .wordmark img {
   display: block;
-  max-height: 60px; /* Adjust this to control the size */
+  max-height: 60px;
   width: auto;
 }
