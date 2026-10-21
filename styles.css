@@ -279,15 +279,14 @@ h2 {
 
 .site-footer p, .back-top { color: var(--muted); font-size: .78rem; }
 
-/* --- Lightbox (Fixed for No Bars + Mobile Scrolling) --- */
+/* --- Lightbox Base Styles --- */
 .lightbox { 
   width: 95vw; 
   max-height: 95vh; 
   padding: 40px; 
   border: 0; 
-  background: #171b18; /* Solid dark theme background */
   color: var(--ink); 
-  overflow-y: auto; /* Ensures long text can be scrolled */
+  overflow-y: auto; 
   scrollbar-width: thin; 
   -ms-overflow-style: none; 
 }
@@ -318,8 +317,8 @@ h2 {
 }
 
 .lightbox-media { 
-  background: transparent; /* Removed the black background bar */
-  max-height: 70vh; /* Changed from fixed height to max-height */
+  background: transparent; 
+  max-height: 70vh; /* Limits height but allows container to shrink */
   width: 100%;
   display: flex; 
   align-items: center;
@@ -331,7 +330,7 @@ h2 {
 .lightbox-media img { 
   max-width: 100%; 
   max-height: 100%; 
-  object-fit: contain; /* Shows full image without cropping */
+  object-fit: contain; /* Prevents cropping */
   display: block; 
 }
 
@@ -348,8 +347,6 @@ h2 {
 
 .lightbox-details { font-size: .82rem; }
 
-/* --- Responsive & Theme Overrides --- */
-
 @media (max-width: 650px) {
   .site-header { height: 68px; padding: 0 22px; }
   .hero { padding: 75px 20px 45px; }
@@ -361,7 +358,6 @@ h2 {
   .gallery-grid { grid-template-columns: 1fr; gap: 28px; }
   .photo-card-wide { grid-column: auto; }
   
-  /* Mobile Fix: Prevent image cutoff by allowing natural aspect ratio */
   .photo-card-wide .photo-image { aspect-ratio: auto; }
   .photo-image { aspect-ratio: auto; }
   
@@ -370,19 +366,18 @@ h2 {
   .site-footer { padding: 24px 20px; flex-wrap: wrap; }
   .site-footer p { order: 3; flex-basis: 100%; margin: 0; }
 
-  /* Mobile Lightbox Fix: Remove "Vertical Bars" and improve sizing */
   .lightbox {
     width: 92vw;
     padding: 20px 15px;
     max-height: 90vh;
   }
   .lightbox-media {
-    height: auto; /* Let content define height */
+    height: auto; 
     max-height: 60vh;
   }
 }
 
-/* Dark astrophotography theme (Consolidated) */
+/* --- Consolidated Dark Theme & Fixes --- */
 :root {
   color-scheme: dark;
   --paper: #111412;
@@ -419,6 +414,16 @@ body {
   background: #1a1f1b;
   border-top: 1px solid #262d27;
   border-bottom: 1px solid #262d27;
+}
+
+.lightbox {
+  background: #171b18; /* Consistent background for the lightbox container */
+  color: var(--ink);
+  border: 1px solid #353d36;
+}
+
+.lightbox-media {
+  background: #171b18; /* Matches the lightbox container exactly to hide "bars" */
 }
 
 .text-link {
@@ -498,4 +503,12 @@ body {
   display: block;
   max-height: 60px;
   width: auto;
+}
+
+/* FINAL MOBILE FIXES */
+@media (max-width: 650px) {
+  /* Fixes Hero Image cropping by switching to contain */
+  .hero-art {
+    background-size: contain !important;
+  }
 }
