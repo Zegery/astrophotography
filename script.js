@@ -8,23 +8,14 @@ const lightboxCategory = document.querySelector("#lightbox-category");
 const lightboxDescription = document.querySelector("#lightbox-description");
 const lightboxDetails = document.querySelector("#lightbox-details");
 
-// Zoom & Pan Variables
-let scale = 1;
-let isPanning = false;
-let startX, startY;
-let translateX = 0;
-let translateY = 0;
-
 cards.forEach((card) => {
   card.addEventListener("click", () => {
     const imagePath = card.dataset.image;
     const thumbnail = card.querySelector("img");
 
-    // Reset Zoom and Pan on every new image open
-    scale = 1;
-    translateX = 0;
-    translateY = 0;
-    lightboxImage.style.transform = `translate(0px, 0px) scale(1)`;
+    // Reset zoom state
+    lightboxImage.style.transform = `translate3d(0, 0, 0) scale(1)`;
+    lightboxImage.classList.remove("is-zoomed");
 
     lightboxImage.src = imagePath;
     lightboxImage.alt = thumbnail ? thumbnail.alt : card.dataset.title;
@@ -81,57 +72,41 @@ if (!("IntersectionObserver" in window)) {
   });
 }
 
-/* ── Zoom and Pan Logic ── */
+/* ── Simple Click-to-Zoom Logic ── */
 
-const lightboxMedia = document.querySelector(".lightbox-media");
-const zoomInBtn = document.getElementById("zoom-in");
-const zoomOutBtn = document.getElementById("zoom-out");
+lightboxImage.addEventListener("click", (e) => {
+  // Prevent the lightbox from closing when we click the image
+  e.stopPropagation();
 
-// Handle Zoom Buttons
-zoomInBtn.addEventListener("click", () => {
-  scale += 0.3;
-  updateTransform();
-});
-
-zoomOutBtn.addEventListener("click", () => {
-  scale = Math.max(1, scale - 0.3);
-  updateTransform();
-});
-
-// Handle Mouse Wheel Zoom
-lightboxMedia.addEventListener("wheel", (e) => {
-  e.preventDefault();
-  if (e.deltaY < 0) {
-    scale += 0.1;
+  if (lightboxImage.classList.contains("is-zoomed")) {
+    // Zoom Out
+    lightboxImage.classList.remove("is-zoomed");
+    lightboxImage.style.transform = `translate3d(0, 0, 0) scale(1)`;
   } else {
-    scale = Math.max(1, scale - 0.1);
+    // Zoom In
+    lightboxImage.classList.add("is-zoomed");
+    
+    const rect = lightboxImage.getBoundingClientRect();
+    
+    // Calculate where the user clicked relative to the image center
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    
+    // Calculate distance from center
+    const diffX = x - centerX;
+    const diffY = y - centerY;
+    
+    // Scale factor
+    const scale = 2;
+    
+    // Calculate translation to keep the clicked point in the center
+    // We use translate3d for GPU acceleration (prevents lag)
+    const translateX = diffX * (scale - 1);
+    const translateY = diffY * (scale - 1);
+    
+    lightboxImage.style.transform = `translate3d(${translateX}px, ${translateY}px, 0) scale(${scale})`;
   }
-  updateTransform();
-}, { passive: false });
-
-function updateTransform() {
-  lightboxImage.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
-}
-
-// Handle Panning
-lightboxMedia.addEventListener("mousedown", (e) => {
-  if (scale > 1.1) {
-    isPanning = true;
-    startX = e.clientX - translateX;
-    startY = e.clientY - translateY;
-    lightboxMedia.style.cursor = "grabbing";
-  }
-});
-
-window.addEventListener("mousemove", (e) => {
-  if (isPanning) {
-    translateX = e.clientX - startX;
-    translateY = e.clientY - startY;
-    updateTransform();
-  }
-});
-
-window.addEventListener("mouseup", () => {
-  isPanning = false;
-  lightboxMedia.style.cursor = "grab";
 });
