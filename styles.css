@@ -327,11 +327,7 @@ h2 {
   object-fit: contain; 
   display: block; 
   transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
-  cursor: zoom-in;
-}
-
-.lightbox-media img.is-zoomed {
-  cursor: zoom-out;
+  cursor: default;
 }
 
 .lightbox-info { 
