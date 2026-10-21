@@ -380,17 +380,17 @@ body { background: var(--paper); color: var(--ink); }
 
 /* --- FORCE FIXES (Overrides everything else) --- */
 
-/* Fix 1: Lightbox - No black bars, no cropping, and extra room for text */
+/* Fix 1: Lightbox - No black bars, no cropping, 80% scale for image */
 .lightbox-media {
   background: #171b18 !important; 
   height: auto !important;         
-  max-height: 55vh !important;    /* Reduced from 80vh to 55vh to give text more room */
+  max-height: 80vh !important;    /* Scale to 80% of screen height */
   padding: 0 !important;
 }
 
 .lightbox-media img {
   object-fit: contain !important;  
-  max-height: 55vh !important;
+  max-height: 80vh !important;
 }
 
 /* Fix 2: Hero - Remove the "weird" starfield background but keep the collage */
