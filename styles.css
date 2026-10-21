@@ -531,6 +531,6 @@ html {
 }
 .wordmark img {
   display: block;
-  max-height: 40px; /* Adjust this to control the size */
+  max-height: 80px; /* Adjust this to control the size */
   width: auto;
 }
