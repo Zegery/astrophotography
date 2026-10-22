@@ -18,7 +18,7 @@ let scale = 1;
 let tx = 0;
 let ty = 0;
 const MIN_ZOOM = 1;
-const MAX_ZOOM = 4;
+const MAX_ZOOM = 6;
 const ZOOM_STEP = 0.5;
 
 // 🎯 PAN SENSITIVITY: Locked to 1.0 (1:1 movement)
@@ -125,6 +125,21 @@ function zoomOut() {
     updateTransform();
   }
 }
+
+function resetZoom() {
+  scale = 1;
+  tx = 0;
+  ty = 0;
+  updateTransform();
+}
+
+// Prevent buttons from triggering pan
+[zoomInBtn, zoomOutBtn, document.querySelector('.zoom-reset')].forEach(btn => {
+  btn.addEventListener('pointerdown', e => e.stopPropagation());
+});
+
+// Reset button listener
+document.querySelector('.zoom-reset').addEventListener('click', resetZoom);
 
 // Button listeners
 zoomInBtn.addEventListener('click', zoomIn);

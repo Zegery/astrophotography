@@ -530,3 +530,18 @@ body { background: var(--paper); color: var(--ink); }
   display: block;
   padding-top: 75%; /* Maintains a healthy aspect ratio reference */
 }
+
+/* Adjust spacing for 3 buttons */
+.zoom-controls {
+  position: absolute;
+  top: 20px;
+  right: 75px;
+  display: flex;
+  gap: 8px;
+  z-index: 100;
+}
+
+/* Slightly smaller icon for the reset button to fit cleanly */
+.zoom-btn.zoom-reset {
+  font-size: 0.85rem;
+}
