@@ -439,3 +439,45 @@ body { background: var(--paper); color: var(--ink); }
 .photo-card:hover .photo-image img { transform: scale(1.035); }
 .open-icon { transition: transform 300ms ease; }
 .wordmark img { display: block; max-height: 60px; width: auto; }
+
+/* Zoom wrapper transition + pan override */
+.zoom-wrapper {
+  display: block;
+  transform-origin: center center;
+  transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+/* CRITICAL: Disable transition during drag to prevent jitter/teleport */
+.zoom-wrapper.is-panning {
+  transition: none !important;
+}
+
+.lightbox-media { 
+  position: relative;
+  display: flex; 
+  align-items: center;
+  justify-content: center;
+  overflow: hidden; 
+  border-radius: 4px;
+  background: transparent;
+  max-height: 70vh; 
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  touch-action: none;
+  cursor: grab;
+}
+
+.lightbox-media:active { 
+  cursor: grabbing; 
+}
+
+.lightbox-media img { 
+  max-width: 100%; 
+  max-height: 70vh; 
+  object-fit: contain; 
+  display: block; 
+  user-select: none;
+  -webkit-user-drag: none;
+}
