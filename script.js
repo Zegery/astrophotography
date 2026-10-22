@@ -22,9 +22,6 @@ const MIN_ZOOM = 1;
 const MAX_ZOOM = 4;
 const ZOOM_STEP = 0.5;
 
-// 🎯 PAN SENSITIVITY: Increase this number to pan faster (default 1.8)
-const PAN_SENSITIVITY = 1.8;
-
 // Pan state
 let isPanning = false;
 let dragStartX = 0;
@@ -40,6 +37,7 @@ function clampPan() {
     return;
   }
 
+  // Use getBoundingClientRect for accurate runtime dimensions
   const contRect = lightboxMedia.getBoundingClientRect();
   const imgRect = lightboxImage.getBoundingClientRect();
 
@@ -48,6 +46,7 @@ function clampPan() {
   const imgW = imgRect.width;
   const imgH = imgRect.height;
 
+  // If image fits entirely, reset to center
   if (imgW <= contW && imgH <= contH) {
     tx = 0;
     ty = 0;
@@ -55,6 +54,7 @@ function clampPan() {
     return;
   }
 
+  // Calculate exact boundaries so image never leaves container
   const minX = -(imgW - contW);
   const maxX = 0;
   const minY = -(imgH - contH);
@@ -90,9 +90,8 @@ function movePan(e) {
   const clientX = e.clientX ?? e.touches[0].clientX;
   const clientY = e.clientY ?? e.touches[0].clientY;
 
-  // 🎯 Apply sensitivity multiplier to delta
-  const dx = (clientX - dragStartX) * PAN_SENSITIVITY;
-  const dy = (clientY - dragStartY) * PAN_SENSITIVITY;
+  const dx = clientX - dragStartX;
+  const dy = clientY - dragStartY;
 
   tx = dragStartTx + dx;
   ty = dragStartTy + dy;
@@ -122,14 +121,17 @@ function zoomOut() {
   }
 }
 
+// Button listeners
 zoomInBtn.addEventListener('click', zoomIn);
 zoomOutBtn.addEventListener('click', zoomOut);
 
+// Prevent buttons from triggering pan
 [zoomInBtn, zoomOutBtn].forEach(btn => {
   btn.addEventListener('mousedown', e => e.stopPropagation());
   btn.addEventListener('touchstart', e => e.stopPropagation());
 });
 
+// Attach pan events to document for reliable drag tracking
 document.addEventListener('mousedown', startPan);
 document.addEventListener('mousemove', movePan);
 document.addEventListener('mouseup', endPan);
@@ -137,11 +139,13 @@ document.addEventListener('touchstart', startPan, { passive: false });
 document.addEventListener('touchmove', movePan, { passive: false });
 document.addEventListener('touchend', endPan);
 
+// Card click handler
 cards.forEach((card) => {
   card.addEventListener("click", () => {
     const imagePath = card.dataset.image;
     const thumbnail = card.querySelector("img");
 
+    // Reset zoom state
     scale = 1;
     tx = 0;
     ty = 0;
@@ -155,7 +159,9 @@ cards.forEach((card) => {
     lightboxDescription.textContent = card.dataset.description || "";
     lightboxDetails.textContent = card.dataset.details || "";
 
+    // Recalculate bounds once image loads
     lightboxImage.onload = () => {
+      // Small timeout ensures layout is fully computed
       requestAnimationFrame(() => clampPan());
     };
     if (lightboxImage.complete) lightboxImage.onload();
@@ -168,6 +174,7 @@ cards.forEach((card) => {
 
 closeButton.addEventListener("click", () => dialog.close());
 
+// FIX 1: Disable automatic close when clicking outside/dragging away
 dialog.addEventListener('mousedown', (e) => {
   if (e.target === dialog) e.preventDefault();
 });
