@@ -40,6 +40,7 @@ function clampPan() {
     return;
   }
 
+  // Use getBoundingClientRect for accurate runtime dimensions
   const contRect = lightboxMedia.getBoundingClientRect();
   const imgRect = lightboxImage.getBoundingClientRect();
 
@@ -48,6 +49,7 @@ function clampPan() {
   const imgW = imgRect.width;
   const imgH = imgRect.height;
 
+  // If image fits entirely, reset to center
   if (imgW <= contW && imgH <= contH) {
     tx = 0;
     ty = 0;
@@ -55,13 +57,17 @@ function clampPan() {
     return;
   }
 
-  const minX = -(imgW - contW);
-  const maxX = 0;
-  const minY = -(imgH - contH);
-  const maxY = 0;
+  // 🎯 CENTERED OFFSET LOGIC
+  // Since the image is centered by default (tx=0), we calculate the 
+  // allowable offset from the center in both directions.
+  const maxOffsetX = (imgW - contW) / 2;
+  const maxOffsetY = (imgH - contH) / 2;
 
-  tx = Math.max(minX, Math.min(maxX, tx));
-  ty = Math.max(minY, Math.min(maxY, ty));
+  // Clamp X
+  tx = Math.max(-maxOffsetX, Math.min(maxOffsetX, tx));
+  
+  // Clamp Y
+  ty = Math.max(-maxOffsetY, Math.min(maxOffsetY, ty));
 
   updateTransform();
 }
@@ -90,6 +96,7 @@ function onPointerMove(e) {
   if (!isPanning) return;
   e.preventDefault();
   
+  // Apply sensitivity to the delta
   const dx = (e.clientX - dragStartX) * PAN_SENSITIVITY;
   const dy = (e.clientY - dragStartY) * PAN_SENSITIVITY;
   
