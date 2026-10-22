@@ -37,18 +37,31 @@ function clampPan() {
     return;
   }
 
-  const renderedW = lightboxImage.offsetWidth * scale;
-  const renderedH = lightboxImage.offsetHeight * scale;
-  const contW = lightboxMedia.clientWidth;
-  const contH = lightboxMedia.clientHeight;
+  // Use getBoundingClientRect for accurate runtime dimensions
+  const contRect = lightboxMedia.getBoundingClientRect();
+  const imgRect = lightboxImage.getBoundingClientRect();
 
-  // Clamp X
-  if (renderedW <= contW) tx = 0;
-  else tx = Math.max(-(renderedW - contW), Math.min(0, tx));
+  const contW = contRect.width;
+  const contH = contRect.height;
+  const imgW = imgRect.width;
+  const imgH = imgRect.height;
 
-  // Clamp Y
-  if (renderedH <= contH) ty = 0;
-  else ty = Math.max(-(renderedH - contH), Math.min(0, ty));
+  // If image fits entirely, reset to center
+  if (imgW <= contW && imgH <= contH) {
+    tx = 0;
+    ty = 0;
+    updateTransform();
+    return;
+  }
+
+  // Calculate exact boundaries so image never leaves container
+  const minX = -(imgW - contW);
+  const maxX = 0;
+  const minY = -(imgH - contH);
+  const maxY = 0;
+
+  tx = Math.max(minX, Math.min(maxX, tx));
+  ty = Math.max(minY, Math.min(maxY, ty));
 
   updateTransform();
 }
@@ -73,7 +86,7 @@ function startPan(e) {
 
 function movePan(e) {
   if (!isPanning) return;
-  e.preventDefault(); // Stop mobile scroll/zoom
+  e.preventDefault();
   const clientX = e.clientX ?? e.touches[0].clientX;
   const clientY = e.clientY ?? e.touches[0].clientY;
 
@@ -147,7 +160,10 @@ cards.forEach((card) => {
     lightboxDetails.textContent = card.dataset.details || "";
 
     // Recalculate bounds once image loads
-    lightboxImage.onload = () => clampPan();
+    lightboxImage.onload = () => {
+      // Small timeout ensures layout is fully computed
+      requestAnimationFrame(() => clampPan());
+    };
     if (lightboxImage.complete) lightboxImage.onload();
 
     if (typeof dialog.showModal === "function") {
@@ -158,8 +174,9 @@ cards.forEach((card) => {
 
 closeButton.addEventListener("click", () => dialog.close());
 
-dialog.addEventListener("click", (event) => {
-  if (event.target === dialog) dialog.close();
+// FIX 1: Disable automatic close when clicking outside/dragging away
+dialog.addEventListener('mousedown', (e) => {
+  if (e.target === dialog) e.preventDefault();
 });
 
 document.querySelector("#year").textContent = new Date().getFullYear();
