@@ -23,7 +23,7 @@ const MAX_ZOOM = 4;
 const ZOOM_STEP = 0.5;
 
 // 🎯 PAN SENSITIVITY: Increase this number to pan faster (default 1.8)
-const PAN_SENSITIVITY = 2.6;
+const PAN_SENSITIVITY = 1.8;
 
 // Pan state
 let isPanning = false;
