@@ -22,6 +22,9 @@ const MIN_ZOOM = 1;
 const MAX_ZOOM = 4;
 const ZOOM_STEP = 0.5;
 
+// 🎯 PAN SENSITIVITY: 1.0 = 1:1, 1.5-2.0 = snappy
+const PAN_SENSITIVITY = 1.8;
+
 // Pan state
 let isPanning = false;
 let dragStartX = 0;
@@ -29,40 +32,44 @@ let dragStartY = 0;
 let dragStartTx = 0;
 let dragStartTy = 0;
 
-function clampPan() {
+// Cached boundaries for precise clamping
+let panBounds = { minX: 0, maxX: 0, minY: 0, maxY: 0 };
+
+function updatePanBounds() {
   if (scale <= 1) {
+    panBounds = { minX: 0, maxX: 0, minY: 0, maxY: 0 };
     tx = 0;
     ty = 0;
     updateTransform();
     return;
   }
 
-  // Use getBoundingClientRect for accurate runtime dimensions
-  const contRect = lightboxMedia.getBoundingClientRect();
-  const imgRect = lightboxImage.getBoundingClientRect();
-
-  const contW = contRect.width;
-  const contH = contRect.height;
-  const imgW = imgRect.width;
-  const imgH = imgRect.height;
+  const contW = lightboxMedia.clientWidth;
+  const contH = lightboxMedia.clientHeight;
+  const imgW = lightboxImage.clientWidth;
+  const imgH = lightboxImage.clientHeight;
 
   // If image fits entirely, reset to center
   if (imgW <= contW && imgH <= contH) {
+    panBounds = { minX: 0, maxX: 0, minY: 0, maxY: 0 };
     tx = 0;
     ty = 0;
     updateTransform();
     return;
   }
 
-  // Calculate exact boundaries so image never leaves container
-  const minX = -(imgW - contW);
-  const maxX = 0;
-  const minY = -(imgH - contH);
-  const maxY = 0;
+  // Calculate exact overflow boundaries
+  panBounds.minX = -(imgW - contW);
+  panBounds.maxX = 0;
+  panBounds.minY = -(imgH - contH);
+  panBounds.maxY = 0;
+}
 
-  tx = Math.max(minX, Math.min(maxX, tx));
-  ty = Math.max(minY, Math.min(maxY, ty));
-
+function clampPan() {
+  // Clamp with tiny tolerance to prevent floating-point edge drift
+  const TOLERANCE = 0.5;
+  tx = Math.max(panBounds.minX + TOLERANCE, Math.min(panBounds.maxX - TOLERANCE, tx));
+  ty = Math.max(panBounds.minY + TOLERANCE, Math.min(panBounds.maxY - TOLERANCE, ty));
   updateTransform();
 }
 
@@ -90,8 +97,9 @@ function movePan(e) {
   const clientX = e.clientX ?? e.touches[0].clientX;
   const clientY = e.clientY ?? e.touches[0].clientY;
 
-  const dx = clientX - dragStartX;
-  const dy = clientY - dragStartY;
+  // Apply sensitivity to raw mouse movement
+  const dx = (clientX - dragStartX) * PAN_SENSITIVITY;
+  const dy = (clientY - dragStartY) * PAN_SENSITIVITY;
 
   tx = dragStartTx + dx;
   ty = dragStartTy + dy;
@@ -108,6 +116,7 @@ function endPan() {
 function zoomIn() {
   if (scale < MAX_ZOOM) {
     scale = Math.min(scale + ZOOM_STEP, MAX_ZOOM);
+    updatePanBounds();
     clampPan();
   }
 }
@@ -125,13 +134,12 @@ function zoomOut() {
 zoomInBtn.addEventListener('click', zoomIn);
 zoomOutBtn.addEventListener('click', zoomOut);
 
-// Prevent buttons from triggering pan
 [zoomInBtn, zoomOutBtn].forEach(btn => {
   btn.addEventListener('mousedown', e => e.stopPropagation());
   btn.addEventListener('touchstart', e => e.stopPropagation());
 });
 
-// Attach pan events to document for reliable drag tracking
+// Document-level pan tracking (prevents drag loss)
 document.addEventListener('mousedown', startPan);
 document.addEventListener('mousemove', movePan);
 document.addEventListener('mouseup', endPan);
@@ -145,7 +153,7 @@ cards.forEach((card) => {
     const imagePath = card.dataset.image;
     const thumbnail = card.querySelector("img");
 
-    // Reset zoom state
+    // Reset zoom & pan
     scale = 1;
     tx = 0;
     ty = 0;
@@ -159,10 +167,12 @@ cards.forEach((card) => {
     lightboxDescription.textContent = card.dataset.description || "";
     lightboxDetails.textContent = card.dataset.details || "";
 
-    // Recalculate bounds once image loads
+    // Recalculate boundaries once image renders
     lightboxImage.onload = () => {
-      // Small timeout ensures layout is fully computed
-      requestAnimationFrame(() => clampPan());
+      requestAnimationFrame(() => {
+        updatePanBounds();
+        clampPan();
+      });
     };
     if (lightboxImage.complete) lightboxImage.onload();
 
@@ -174,7 +184,7 @@ cards.forEach((card) => {
 
 closeButton.addEventListener("click", () => dialog.close());
 
-// FIX 1: Disable automatic close when clicking outside/dragging away
+// Prevent backdrop click from closing the dialog
 dialog.addEventListener('mousedown', (e) => {
   if (e.target === dialog) e.preventDefault();
 });
