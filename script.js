@@ -22,7 +22,7 @@ const MIN_ZOOM = 1;
 const MAX_ZOOM = 4;
 const ZOOM_STEP = 0.5;
 
-// 🎯 PAN SENSITIVITY: Changed to 1.0 (1:1 movement)
+// 🎯 PAN SENSITIVITY: Locked to 1.0 (1:1 movement)
 const PAN_SENSITIVITY = 1.0;
 
 // Pan state
@@ -40,16 +40,16 @@ function clampPan() {
     return;
   }
 
-  // Force a synchronous layout update to get accurate dimensions
+  // 🎯 FORCE SYNCHRONOUS LAYOUT UPDATE
+  // This ensures clientWidth/clientHeight reflect the exact rendered state
   void lightboxMedia.offsetHeight;
+  void lightboxImage.offsetHeight;
 
-  const contRect = lightboxMedia.getBoundingClientRect();
-  const imgRect = lightboxImage.getBoundingClientRect();
-
-  const contW = contRect.width;
-  const contH = contRect.height;
-  const imgW = imgRect.width;
-  const imgH = imgRect.height;
+  // 🎯 USE INTEGER-BASED DIMENSIONS (avoids subpixel rounding bugs)
+  const contW = lightboxMedia.clientWidth;
+  const contH = lightboxMedia.clientHeight;
+  const imgW = lightboxImage.clientWidth;
+  const imgH = lightboxImage.clientHeight;
 
   // If image fits entirely, reset to center
   if (imgW <= contW && imgH <= contH) {
@@ -59,10 +59,11 @@ function clampPan() {
     return;
   }
 
-  // Centered offsets: allows panning in all 4 directions
-  const maxOffsetX = (imgW - contW) / 2;
-  const maxOffsetY = (imgH - contH) / 2;
+  // 🎯 CALCULATE ALLOWABLE OFFSET FROM CENTER (always positive)
+  const maxOffsetX = Math.max(0, (imgW - contW) / 2);
+  const maxOffsetY = Math.max(0, (imgH - contH) / 2);
 
+  // Clamp to exact boundaries
   tx = Math.max(-maxOffsetX, Math.min(maxOffsetX, tx));
   ty = Math.max(-maxOffsetY, Math.min(maxOffsetY, ty));
 
@@ -70,7 +71,7 @@ function clampPan() {
 }
 
 function updateTransform() {
-  // Use translate3d for GPU acceleration + Math.round to prevent subpixel jumping
+  // 🎯 GPU-ACCELERATED + INTEGER COORDINATES (prevents subpixel jumping)
   zoomWrapper.style.transform = `translate3d(${Math.round(tx)}px, ${Math.round(ty)}px, 0) scale(${scale})`;
 }
 
@@ -116,8 +117,11 @@ function onPointerCancel() {
 function zoomIn() {
   if (scale < MAX_ZOOM) {
     scale = Math.min(scale + ZOOM_STEP, MAX_ZOOM);
-    // Use rAF to ensure layout updates before clamping
-    requestAnimationFrame(() => clampPan());
+    // 🎯 SYNC LAYOUT BEFORE CLAMPING
+    requestAnimationFrame(() => {
+      void lightboxMedia.offsetHeight;
+      clampPan();
+    });
   }
 }
 
@@ -127,6 +131,7 @@ function zoomOut() {
     tx = 0;
     ty = 0;
     requestAnimationFrame(() => {
+      void lightboxMedia.offsetHeight;
       updateTransform();
       clampPan();
     });
@@ -168,7 +173,10 @@ cards.forEach((card) => {
     lightboxDetails.textContent = card.dataset.details || "";
 
     lightboxImage.onload = () => {
-      requestAnimationFrame(() => clampPan());
+      requestAnimationFrame(() => {
+        void lightboxMedia.offsetHeight;
+        clampPan();
+      });
     };
     if (lightboxImage.complete) lightboxImage.onload();
 
