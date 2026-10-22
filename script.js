@@ -22,8 +22,8 @@ const MIN_ZOOM = 1;
 const MAX_ZOOM = 4;
 const ZOOM_STEP = 0.5;
 
-// 🎯 PAN SENSITIVITY: Increase to pan faster (1.0 = 1:1, 1.8 = fast)
-const PAN_SENSITIVITY = 1.2;
+// 🎯 PAN SENSITIVITY: Changed to 1.0 (1:1 movement)
+const PAN_SENSITIVITY = 1.0;
 
 // Pan state
 let isPanning = false;
@@ -40,7 +40,9 @@ function clampPan() {
     return;
   }
 
-  // Use getBoundingClientRect for accurate runtime dimensions
+  // Force a synchronous layout update to get accurate dimensions
+  void lightboxMedia.offsetHeight;
+
   const contRect = lightboxMedia.getBoundingClientRect();
   const imgRect = lightboxImage.getBoundingClientRect();
 
@@ -57,23 +59,19 @@ function clampPan() {
     return;
   }
 
-  // 🎯 CENTERED OFFSET LOGIC
-  // Since the image is centered by default (tx=0), we calculate the 
-  // allowable offset from the center in both directions.
+  // Centered offsets: allows panning in all 4 directions
   const maxOffsetX = (imgW - contW) / 2;
   const maxOffsetY = (imgH - contH) / 2;
 
-  // Clamp X
   tx = Math.max(-maxOffsetX, Math.min(maxOffsetX, tx));
-  
-  // Clamp Y
   ty = Math.max(-maxOffsetY, Math.min(maxOffsetY, ty));
 
   updateTransform();
 }
 
 function updateTransform() {
-  zoomWrapper.style.transform = `translate(${tx}px, ${ty}px) scale(${scale})`;
+  // Use translate3d for GPU acceleration + Math.round to prevent subpixel jumping
+  zoomWrapper.style.transform = `translate3d(${Math.round(tx)}px, ${Math.round(ty)}px, 0) scale(${scale})`;
 }
 
 // Pointer-based pan (unifies mouse + touch)
@@ -96,7 +94,6 @@ function onPointerMove(e) {
   if (!isPanning) return;
   e.preventDefault();
   
-  // Apply sensitivity to the delta
   const dx = (e.clientX - dragStartX) * PAN_SENSITIVITY;
   const dy = (e.clientY - dragStartY) * PAN_SENSITIVITY;
   
@@ -119,7 +116,8 @@ function onPointerCancel() {
 function zoomIn() {
   if (scale < MAX_ZOOM) {
     scale = Math.min(scale + ZOOM_STEP, MAX_ZOOM);
-    clampPan();
+    // Use rAF to ensure layout updates before clamping
+    requestAnimationFrame(() => clampPan());
   }
 }
 
@@ -128,7 +126,10 @@ function zoomOut() {
     scale = Math.max(scale - ZOOM_STEP, MIN_ZOOM);
     tx = 0;
     ty = 0;
-    updateTransform();
+    requestAnimationFrame(() => {
+      updateTransform();
+      clampPan();
+    });
   }
 }
 
