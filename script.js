@@ -22,42 +22,79 @@ const MIN_ZOOM = 1;
 const MAX_ZOOM = 4;
 const ZOOM_STEP = 0.5;
 
-function clamp(value, min, max) {
-  return Math.min(Math.max(value, min), max);
+// Pan state
+let isPanning = false;
+let dragStartX = 0;
+let dragStartY = 0;
+let dragStartTx = 0;
+let dragStartTy = 0;
+
+function clampPan() {
+  if (scale <= 1) {
+    tx = 0;
+    ty = 0;
+    updateTransform();
+    return;
+  }
+
+  const renderedW = lightboxImage.offsetWidth * scale;
+  const renderedH = lightboxImage.offsetHeight * scale;
+  const contW = lightboxMedia.clientWidth;
+  const contH = lightboxMedia.clientHeight;
+
+  // Clamp X
+  if (renderedW <= contW) tx = 0;
+  else tx = Math.max(-(renderedW - contW), Math.min(0, tx));
+
+  // Clamp Y
+  if (renderedH <= contH) ty = 0;
+  else ty = Math.max(-(renderedH - contH), Math.min(0, ty));
+
+  updateTransform();
 }
 
 function updateTransform() {
   zoomWrapper.style.transform = `translate(${tx}px, ${ty}px) scale(${scale})`;
 }
 
-function clampPan() {
-  if (scale <= 1) {
-    tx = 0;
-    ty = 0;
-  } else {
-    const imgWidth = lightboxImage.offsetWidth * scale;
-    const imgHeight = lightboxImage.offsetHeight * scale;
-    const containerWidth = lightboxMedia.clientWidth;
-    const containerHeight = lightboxMedia.clientHeight;
+function startPan(e) {
+  if (scale <= 1) return;
+  isPanning = true;
+  const clientX = e.clientX ?? e.touches[0].clientX;
+  const clientY = e.clientY ?? e.touches[0].clientY;
+  dragStartX = clientX;
+  dragStartY = clientY;
+  dragStartTx = tx;
+  dragStartTy = ty;
+  zoomWrapper.classList.add('is-panning');
+  lightboxMedia.style.cursor = 'grabbing';
+  e.preventDefault();
+}
 
-    // Only allow panning if image is larger than container
-    if (imgWidth < containerWidth) tx = 0;
-    else {
-      tx = clamp(tx, -(imgWidth - containerWidth), 0);
-    }
+function movePan(e) {
+  if (!isPanning) return;
+  e.preventDefault(); // Stop mobile scroll/zoom
+  const clientX = e.clientX ?? e.touches[0].clientX;
+  const clientY = e.clientY ?? e.touches[0].clientY;
 
-    if (imgHeight < containerHeight) ty = 0;
-    else {
-      ty = clamp(ty, -(imgHeight - containerHeight), 0);
-    }
-  }
-  updateTransform();
+  const dx = clientX - dragStartX;
+  const dy = clientY - dragStartY;
+
+  tx = dragStartTx + dx;
+  ty = dragStartTy + dy;
+  clampPan();
+}
+
+function endPan() {
+  if (!isPanning) return;
+  isPanning = false;
+  zoomWrapper.classList.remove('is-panning');
+  lightboxMedia.style.cursor = 'grab';
 }
 
 function zoomIn() {
   if (scale < MAX_ZOOM) {
     scale = Math.min(scale + ZOOM_STEP, MAX_ZOOM);
-    updateTransform();
     clampPan();
   }
 }
@@ -65,74 +102,31 @@ function zoomIn() {
 function zoomOut() {
   if (scale > MIN_ZOOM) {
     scale = Math.max(scale - ZOOM_STEP, MIN_ZOOM);
-    tx = 0; // Center on zoom out
+    tx = 0;
     ty = 0;
     updateTransform();
   }
 }
 
-// Pan state
-let isPanning = false;
-let startX, startY, startTx, startTy;
-
-// Mouse pan
-lightboxMedia.addEventListener("mousedown", (e) => {
-  if (scale <= 1) return;
-  isPanning = true;
-  startX = e.clientX;
-  startY = e.clientY;
-  startTx = tx;
-  startTy = ty;
-  lightboxMedia.style.cursor = "grabbing";
-  e.preventDefault();
-});
-
-window.addEventListener("mousemove", (e) => {
-  if (!isPanning) return;
-  const dx = e.clientX - startX;
-  const dy = e.clientY - startY;
-  tx = startTx + dx;
-  ty = startTy + dy;
-  updateTransform();
-  clampPan(); // Real-time clamping keeps it smooth
-});
-
-window.addEventListener("mouseup", () => {
-  if (isPanning) {
-    isPanning = false;
-    lightboxMedia.style.cursor = "default";
-  }
-});
-
-// Touch pan
-lightboxMedia.addEventListener("touchstart", (e) => {
-  if (scale <= 1) return;
-  isPanning = true;
-  startX = e.touches[0].clientX;
-  startY = e.touches[0].clientY;
-  startTx = tx;
-  startTy = ty;
-}, { passive: true });
-
-window.addEventListener("touchmove", (e) => {
-  if (!isPanning) return;
-  const dx = e.touches[0].clientX - startX;
-  const dy = e.touches[0].clientY - startY;
-  tx = startTx + dx;
-  ty = startTy + dy;
-  updateTransform();
-  clampPan();
-}, { passive: true });
-
-window.addEventListener("touchend", () => {
-  isPanning = false;
-});
-
 // Button listeners
-zoomInBtn.addEventListener("click", zoomIn);
-zoomOutBtn.addEventListener("click", zoomOut);
+zoomInBtn.addEventListener('click', zoomIn);
+zoomOutBtn.addEventListener('click', zoomOut);
 
-// Card click handler (modified to reset zoom)
+// Prevent buttons from triggering pan
+[zoomInBtn, zoomOutBtn].forEach(btn => {
+  btn.addEventListener('mousedown', e => e.stopPropagation());
+  btn.addEventListener('touchstart', e => e.stopPropagation());
+});
+
+// Attach pan events to document for reliable drag tracking
+document.addEventListener('mousedown', startPan);
+document.addEventListener('mousemove', movePan);
+document.addEventListener('mouseup', endPan);
+document.addEventListener('touchstart', startPan, { passive: false });
+document.addEventListener('touchmove', movePan, { passive: false });
+document.addEventListener('touchend', endPan);
+
+// Card click handler
 cards.forEach((card) => {
   card.addEventListener("click", () => {
     const imagePath = card.dataset.image;
@@ -142,6 +136,7 @@ cards.forEach((card) => {
     scale = 1;
     tx = 0;
     ty = 0;
+    zoomWrapper.classList.remove('is-panning');
     updateTransform();
 
     lightboxImage.src = imagePath;
@@ -153,6 +148,7 @@ cards.forEach((card) => {
 
     // Recalculate bounds once image loads
     lightboxImage.onload = () => clampPan();
+    if (lightboxImage.complete) lightboxImage.onload();
 
     if (typeof dialog.showModal === "function") {
       dialog.showModal();
