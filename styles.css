@@ -556,3 +556,26 @@ body { background: var(--paper); color: var(--ink); }
   }
   .photo-card-wide .photo-image { aspect-ratio: auto; }
 }
+
+/* Desktop: Full images, no cropping, no empty bars */
+@media (min-width: 651px) {
+  .photo-image {
+    aspect-ratio: auto !important;
+    height: auto;
+    width: 100%;
+    background: transparent;
+    overflow: hidden;
+  }
+  
+  .photo-image img {
+    width: 100%;
+    height: auto;
+    max-height: 500px;
+    object-fit: contain;
+    display: block;
+  }
+  
+  .photo-card-wide .photo-image {
+    aspect-ratio: auto !important;
+  }
+}
