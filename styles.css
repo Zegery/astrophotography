@@ -546,36 +546,31 @@ body { background: var(--paper); color: var(--ink); }
   font-size: 0.85rem;
 }
 
-/* Desktop: Show full images without cropping */
-@media (min-width: 651px) {
+/* Desktop: Uniform 4:3 grid with object-fit: cover */
+.photo-image { 
+  display: block; 
+  overflow: hidden; 
+  position: relative; 
+  aspect-ratio: 4/3; 
+  background: #151a22; 
+}
+
+.photo-image img { 
+  display: block; 
+  width: 100%; 
+  height: 100%; 
+  object-fit: cover; 
+  transition: transform .5s ease; 
+}
+
+.photo-card:hover .photo-image img { transform: scale(1.035); }
+
+/* Mobile: Keep full images visible (preserves your current mobile layout) */
+@media (max-width: 650px) {
   .photo-image { aspect-ratio: auto; }
   .photo-image img { 
     height: auto; 
     max-height: 480px; 
     object-fit: contain; 
-  }
-  .photo-card-wide .photo-image { aspect-ratio: auto; }
-}
-
-/* Desktop: Full images, no cropping, no empty bars */
-@media (min-width: 651px) {
-  .photo-image {
-    aspect-ratio: auto !important;
-    height: auto;
-    width: 100%;
-    background: transparent;
-    overflow: hidden;
-  }
-  
-  .photo-image img {
-    width: 100%;
-    height: auto;
-    max-height: 500px;
-    object-fit: contain;
-    display: block;
-  }
-  
-  .photo-card-wide .photo-image {
-    aspect-ratio: auto !important;
   }
 }
