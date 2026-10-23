@@ -545,3 +545,14 @@ body { background: var(--paper); color: var(--ink); }
 .zoom-btn.zoom-reset {
   font-size: 0.85rem;
 }
+
+/* Desktop: Show full images without cropping */
+@media (min-width: 651px) {
+  .photo-image { aspect-ratio: auto; }
+  .photo-image img { 
+    height: auto; 
+    max-height: 480px; 
+    object-fit: contain; 
+  }
+  .photo-card-wide .photo-image { aspect-ratio: auto; }
+}
