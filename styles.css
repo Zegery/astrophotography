@@ -546,18 +546,17 @@ body { background: var(--paper); color: var(--ink); }
   font-size: 0.85rem;
 }
 
-/* ── Desktop: 3+ columns, no cropping, aligned captions, NO BARS ── */
+/* ── Desktop: Larger grid, natural sizing, consistent caption spacing ── */
 .gallery-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
   grid-auto-rows: auto;
-  gap: 24px;
+  gap: 32px 28px;
 }
 
 .photo-card {
   display: flex;
   flex-direction: column;
-  height: 100%;
   padding: 0;
   border: 0;
   background: transparent;
@@ -568,21 +567,18 @@ body { background: var(--paper); color: var(--ink); }
 }
 
 .photo-image {
-  flex: 1 1 auto;
+  flex: 0 0 auto;
   aspect-ratio: auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: block;
   overflow: hidden;
-  background: transparent; /* ✅ REMOVES EMPTY BARS */
-  min-height: 0;
+  background: transparent;
 }
 
 .photo-image img {
   display: block;
   width: 100%;
-  height: 100%;
-  object-fit: contain; /* ✅ ZERO CROPPING */
+  height: auto;
+  object-fit: contain;
   transition: transform .5s ease;
 }
 
@@ -593,8 +589,7 @@ body { background: var(--paper); color: var(--ink); }
   justify-content: space-between;
   gap: 15px;
   align-items: center;
-  padding-top: 15px;
-  margin-top: auto; /* ✅ CAPTIONS ALWAYS PIN TO BOTTOM */
+  padding-top: 12px;
 }
 
 .photo-caption strong {
@@ -623,21 +618,21 @@ body { background: var(--paper); color: var(--ink); }
 @media (max-width: 650px) {
   .gallery-grid {
     grid-template-columns: 1fr;
-    grid-auto-rows: auto;
     gap: 28px;
   }
-  
+
   .photo-card { height: auto; }
-  
+
   .photo-image {
-    flex: none;
     aspect-ratio: auto;
   }
-  
+
   .photo-image img {
     height: auto;
     max-height: 480px;
   }
-  
-  .photo-caption { margin-top: 0; }
+
+  .photo-caption {
+    padding-top: 15px;
+  }
 }
