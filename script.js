@@ -133,22 +133,16 @@ function resetZoom() {
   updateTransform();
 }
 
-// Prevent buttons from triggering pan
-[zoomInBtn, zoomOutBtn, document.querySelector('.zoom-reset')].forEach(btn => {
+const resetBtn = document.querySelector('.zoom-reset');
+const zoomButtons = [zoomInBtn, zoomOutBtn, resetBtn].filter(Boolean);
+
+zoomButtons.forEach(btn => {
   btn.addEventListener('pointerdown', e => e.stopPropagation());
 });
 
-// Reset button listener
-document.querySelector('.zoom-reset').addEventListener('click', resetZoom);
-
-// Button listeners
+if (resetBtn) resetBtn.addEventListener('click', resetZoom);
 zoomInBtn.addEventListener('click', zoomIn);
 zoomOutBtn.addEventListener('click', zoomOut);
-
-// Prevent buttons from triggering pan
-[zoomInBtn, zoomOutBtn].forEach(btn => {
-  btn.addEventListener('pointerdown', e => e.stopPropagation());
-});
 
 // Attach pointer events to the media container
 lightboxMedia.addEventListener('pointerdown', onPointerDown);
