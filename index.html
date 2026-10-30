@@ -150,5 +150,26 @@
     <p><span id="year"></span></p>
     <a href="#top" class="back-top">Back to top ↑</a>
   </footer>
+    <dialog class="lightbox" id="lightbox" aria-labelledby="lightbox-title">
+    <button class="lightbox-close" type="button" aria-label="Close image viewer">×</button>
+    
+    <div class="lightbox-media">
+      <div class="zoom-controls">
+        <button class="zoom-btn zoom-out" type="button" aria-label="Zoom out">−</button>
+        <button class="zoom-btn zoom-reset" type="button" aria-label="Reset zoom">↺</button>
+        <button class="zoom-btn zoom-in" type="button" aria-label="Zoom in">+</button>
+      </div>
+      <div class="zoom-wrapper">
+        <img id="lightbox-image" src="" alt="">
+      </div>
+    </div>
+    
+    <div class="lightbox-info">
+      <p class="eyebrow" id="lightbox-category"></p>
+      <h2 id="lightbox-title"></h2>
+      <p id="lightbox-description"></p>
+      <p class="lightbox-details" id="lightbox-details"></p>
+    </div>
+  </dialog>
 </body>
 </html>
