@@ -133,6 +133,7 @@ function resetZoom() {
   updateTransform();
 }
 
+// Safe button & pointer event setup
 const resetBtn = document.querySelector('.zoom-reset');
 const zoomButtons = [zoomInBtn, zoomOutBtn, resetBtn].filter(Boolean);
 
@@ -141,14 +142,15 @@ zoomButtons.forEach(btn => {
 });
 
 if (resetBtn) resetBtn.addEventListener('click', resetZoom);
-zoomInBtn.addEventListener('click', zoomIn);
-zoomOutBtn.addEventListener('click', zoomOut);
+if (zoomInBtn) zoomInBtn.addEventListener('click', zoomIn);
+if (zoomOutBtn) zoomOutBtn.addEventListener('click', zoomOut);
 
-// Attach pointer events to the media container
-lightboxMedia.addEventListener('pointerdown', onPointerDown);
-lightboxMedia.addEventListener('pointermove', onPointerMove);
-lightboxMedia.addEventListener('pointerup', onPointerUp);
-lightboxMedia.addEventListener('pointercancel', onPointerCancel);
+if (lightboxMedia) {
+  lightboxMedia.addEventListener('pointerdown', onPointerDown);
+  lightboxMedia.addEventListener('pointermove', onPointerMove);
+  lightboxMedia.addEventListener('pointerup', onPointerUp);
+  lightboxMedia.addEventListener('pointercancel', onPointerCancel);
+}
 
 // Card click handler
 cards.forEach((card) => {
